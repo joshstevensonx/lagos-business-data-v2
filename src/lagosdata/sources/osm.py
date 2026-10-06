@@ -47,7 +47,20 @@ async def fetch_osm(query, *, via_browser=False, timeout=70, browser=None, clien
         if own: await client.aclose()
     raise RuntimeError('All Overpass endpoints failed: '+'; '.join(errors))
 
-def fetch_osm_sync(query, *, timeout=70):
+def fetch_osm_sync(query, *, timeout=70, via_browser=False):
+    if via_browser:
+        async def browser_request():
+            from playwright.async_api import async_playwright
+            async with async_playwright() as p:
+                browser=await p.chromium.launch(headless=True);page=await browser.new_page()
+                await page.goto('https://www.openstreetmap.org/',wait_until='domcontentloaded',timeout=timeout*1000)
+                result=await page.evaluate('''async q=>{const r=await fetch("https://overpass-api.de/api/interpreter",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:"data="+encodeURIComponent(q)});if(!r.ok)throw new Error("Overpass HTTP "+r.status);return await r.json()}''',query)
+                await browser.close();return result
+        try:
+            import asyncio
+            return asyncio.run(browser_request())
+        except Exception as exc:
+            return {'elements':[],'error':f'browser Overpass transport failed: {exc}','attribution':ATTRIBUTION}
     errors=[]
     with httpx.Client(timeout=timeout,headers={'User-Agent':'LagosLocalBusinessDataCollector/0.1 (public OSM query)'}) as client:
         for endpoint in ENDPOINTS:

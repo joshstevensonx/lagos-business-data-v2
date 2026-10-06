@@ -122,4 +122,8 @@ def score_business(record, name_counts):
     raw.setdefault('reviewsCount', record.get('reviews', 0))
     raw.setdefault('totalScore', record.get('rating', 0))
     raw.setdefault('additionalInfo', record.get('additional_info', {}))
+    opening = record.get('additional_opening_hours', {})
+    raw.setdefault('additionalOpeningHours.Delivery.hours', (opening.get('Delivery') or {}).get('hours', ''))
+    raw.setdefault('additionalOpeningHours.Delivery.day', (opening.get('Delivery') or {}).get('day', ''))
+    raw.setdefault('googleFoodUrl', record.get('order_online', False))
     return score(raw, name_counts)

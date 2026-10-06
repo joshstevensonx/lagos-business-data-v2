@@ -1,12 +1,18 @@
 """Strict YAML configuration validation."""
 from pathlib import Path
-from typing import Literal
+from typing import Any, Literal
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class StrictModel(BaseModel):
     model_config = ConfigDict(extra='forbid')
+
+
+class DirectoryPage(StrictModel):
+    url: str
+    area: str = ''
+    term: str = ''
 
 
 class SourceOptions(StrictModel):
@@ -18,10 +24,14 @@ class SourceOptions(StrictModel):
     max_searches: int | None = None
     max_runtime_minutes: int | None = None
     delay_seconds: tuple[float, float] = (2, 6)
+    sweeps: list[dict[str, Any]] = Field(default_factory=list)
     sites: list[str] = Field(default_factory=list)
+    pages: dict[str, list[DirectoryPage]] = Field(default_factory=dict)
+    max_pages: int = 5
     rate_per_second: float = 1.0
     contact_email: str = 'ops@example.invalid'
     max_sites: int = 0
+    max_records: int = 100
     monthly_ceiling_pct: int = 80
     skus: list[str] = Field(default_factory=lambda: ['essentials'])
 

@@ -1,0 +1,23 @@
+pipeline: magazine
+run_id_prefix: magazine-pilot
+areas: [Anthony / Anthony Village, Maryland / Mende]
+core_areas: [Anthony / Anthony Village, Maryland / Mende]
+taxonomy:
+  mode: subset
+  terms: [pharmacy, supermarket, restaurant, school, plumber, salon]
+sources:
+  places_api: {enabled: false}
+  osm: {enabled: true, via_browser: false}
+  gmaps_browser:
+    enabled: true
+    concurrency: 1
+    zoom: 14
+    max_searches: 12
+    max_runtime_minutes: 90
+    delay_seconds: [2, 6]
+    sweeps: [{center: [6.5660, 3.3680], zoom: 14, covers: [Anthony / Anthony Village, Maryland / Mende]}]
+  directories: {enabled: false}
+  site_contacts: {enabled: false}
+enrich:
+  place_pages: {enabled: false}
+output: {dir: out/, workbook: Lagos_Two_Area_Pilot.xlsx}

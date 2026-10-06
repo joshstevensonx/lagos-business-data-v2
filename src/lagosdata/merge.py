@@ -49,7 +49,8 @@ def deduplicate(records, *, drop_pois=True, audit=None):
                 hit[field] = new
             elif old not in ('', None) and new not in ('', None) and old != new:
                 conflict = {'field':field,'kept':old,'rejected':new,'kept_source':existing_source,'rejected_source':incoming_source}
-                if _rank(incoming_source) > _rank(existing_source):
+                existing_rank=max([_rank(s) for s in hit.get('sources_all',[])] or [_rank(existing_source)])
+                if _rank(incoming_source) > existing_rank:
                     conflict.update(kept=new, rejected=old, kept_source=incoming_source, rejected_source=existing_source)
                     hit[field] = new
                 hit.setdefault('conflicts', []).append(conflict)

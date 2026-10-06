@@ -2,7 +2,7 @@
 import asyncio
 from urllib.parse import urljoin,urlparse
 import httpx
-from selectolax.parser import HTMLParser
+from selectolax.lexbor import LexborHTMLParser as HTMLParser
 from .robots import Robots
 from .cache import URLCache
 from .extractors import extract_contacts
