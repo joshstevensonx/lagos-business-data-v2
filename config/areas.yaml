@@ -1,0 +1,8 @@
+areas:
+  "Anthony / Anthony Village": {lat: 6.55982, lng: 3.36915, radius_km: 1.30, derived_from: "known-good defaults"}
+  "Maryland / Mende": {lat: 6.57229, lng: 3.36717, radius_km: 1.30, derived_from: "known-good defaults"}
+  Ilupeju: {lat: 6.54548, lng: 3.35989, radius_km: 1.40, derived_from: "known-good defaults"}
+  Gbagada: {lat: 6.55144, lng: 3.38653, radius_km: 1.60, derived_from: "known-good defaults"}
+  Obanikoro: {lat: 6.54773, lng: 3.36824, radius_km: 1.00, derived_from: "known-good defaults"}
+  Palmgrove: {lat: 6.53952, lng: 3.36767, radius_km: 1.00, derived_from: "known-good defaults"}
+  Ojota: {lat: 6.58282, lng: 3.38447, radius_km: 1.40, derived_from: "known-good defaults"}
